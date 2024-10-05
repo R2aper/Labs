@@ -19,7 +19,7 @@
 using namespace std;
 
 class Circle {
-private:
+protected:
     float R;
 
 public:
@@ -30,7 +30,6 @@ public:
     Circle(float R) {
         this->R = R;
     }
-
 
     virtual ~Circle() {}
 
@@ -43,15 +42,15 @@ public:
     }
 
     float getR() {
-        return this->R;
+        return R;
     }
 
     void setR(float newR) {
-        this->R = newR;
+       R = newR;
     } 
 
     void virtual printInfo() {
-        cout<< "Radius: " << getR() << endl;
+        cout << "\nRadius: " << getR() << endl;
         cout << "Area: " << getArea() << endl;
         cout << "Length: " << getLength() << endl;
     }
@@ -61,6 +60,7 @@ public:
 class Cylinder:public Circle {
 private:
     float h;
+
 public:
     Cylinder() {
         h = 1.0;
@@ -122,25 +122,25 @@ void EnterDataCylinder(Cylinder *Cy, int M) {
     }
 }
 
-void AverageCylinder(Cylinder *Cy, int M) {
+float AverageCylinder(Cylinder *Cy, int M) {
     float sum = 0;
     for (int i = 0; i < M; i++) {
         sum += Cy[i].getVolume();
     }
-    cout << "Average volume of Cylinders: " << sum / M << endl;
+    return sum / M;
 } 
 
 Circle MaxCircle(Circle *C, int N) {
-    Circle Max;
-    float max = C[0].getArea();
+    Circle MaxCircle;
+    float MaxArea = C[0].getArea();
     for (int i = 1; i < N; i++) {
-        if (C[i].getArea() > max) {
-            max = C[i].getArea();
-            Max = C[i];
+        if (C[i].getArea() > MaxArea) {
+            MaxArea = C[i].getArea();
+            MaxCircle = C[i];
         }
     }
 
-    return Max;
+    return MaxCircle;
 
 }
 
@@ -158,11 +158,11 @@ int main() {
     EnterDataCircle(C, N);
     EnterDataCylinder(Cy, M);
 
-    AverageCylinder(Cy, M);
+    cout << "\nAverage volume of cylinders: " << AverageCylinder(Cy, M) << endl;
     Circle Max = MaxCircle(C, N);
 
+    cout << "\nCircle with max area: ";
     Max.printInfo();
-
 
     delete [] C;
     delete [] Cy;
