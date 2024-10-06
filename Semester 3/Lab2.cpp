@@ -64,12 +64,12 @@ private:
 public:
     Cylinder() {
         h = 1.0;
-        setR(1.0);
+        R = 1.0; 
     }
 
     Cylinder(float R, float h){
         this->h = h;
-        setR(R);
+        this->R = R; 
     }
 
 
@@ -78,7 +78,7 @@ public:
     }
 
     float getArea() override {
-        return 2 * M_PI * getR() * (getR() + h);
+        return 2 * M_PI * R * (R + h);
     }
 
     float getH() {
@@ -89,7 +89,7 @@ public:
         h = newH;
     }
     void printInfo() override {
-        cout<<"\nRadius: " << getR() << endl;
+        cout<<"\nRadius: " << R << endl;
         cout << "Height: " << h << endl;
         cout <<"Area: " << getArea() << endl;
         cout << "Volume: " << getVolume() << endl;
