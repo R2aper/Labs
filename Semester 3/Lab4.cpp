@@ -9,25 +9,24 @@
 
 -Проверить, не оказался ли новый вектор пустым
 
--Если не пуст, повести сортировку объектов в новом векторе. 
+-Если не пуст, повести сортировку объектов в новом векторе.
 (критерий сортировки тоже выберите сами, исходя из атрибутов
 объектов вашего класса)
 
 */
 #include <iostream>
 #include <string>
-#include <vector>
 #include <time.h>
-#include <algorithm>
+#include <vector>
 
 using namespace std;
 
 class CommunicationDevice {
-private:
+  private:
     string Manufacturer;
     float Delay;
 
-public:
+  public:
     CommunicationDevice() {
         string Default = "Untitle";
         this->Manufacturer = Default;
@@ -37,55 +36,61 @@ public:
         this->Manufacturer = Manufacturer;
         this->Delay = Delay;
     }
-    void setManufacturer(string newManufacturer) {
-        this->Manufacturer = newManufacturer;
+    void setManufacturer(string newManufacturer) { Manufacturer = newManufacturer; }
+    void setDelay(float newDelay) { Delay = newDelay; }
+    string getManufacturer() { return Manufacturer; }
+    float getDelay() { return Delay; }
+    void printInfo() {
+        cout << "\nManufacturer: " << Manufacturer << endl;
+        cout << "Delay: " << Delay << " seconds" << endl;
     }
-    void setDelay(float newDelay) {
-        this->Delay = newDelay;
-    }
-    string getManufacturer() {
-        return this->Manufacturer;
-    }
-    float getDelay() {
-        return this->Delay;
-    }
-    void printInfo()
-   { 
-       cout << "Manufacturer: " <<Manufacturer << endl;
-       cout << "Delay: " <<Delay << " seconds" <<endl;
-    }
-
 };
+
+void printVector(vector<CommunicationDevice> devices) {
+    for (int i = 0; i < devices.size(); i++) {
+        devices[i].printInfo();
+    }
+}
 
 int main() {
     srand(time(0));
     string Manufacturers[5] = {"Apple", "Samsung", "Xiaomi", "Huawei", "Nokia"};
-    vector <CommunicationDevice> devices(3);
+    vector<CommunicationDevice> devices(3);
 
-    for(int i =0; i < 3; i++){ 
-        devices[i].setDelay(rand() % 10);//!
+    for (int i = 0; i < 3; i++) {
+        devices[i].setDelay(rand() % 10);
         devices[i].setManufacturer(Manufacturers[rand() % 5]);
     }
 
-    vector <CommunicationDevice> new_devices;
-    for(int i =0; i < 3; i++){ 
-        if(devices[i].getDelay() < 5){//!
+    cout << "------Devices------" << endl;
+    printVector(devices);
+
+    vector<CommunicationDevice> new_devices;
+
+    for (int i = 0; i < 3; i++) {
+        if (devices[i].getDelay() < 5) {
             new_devices.push_back(devices[i]);
         }
     }
 
-    if(new_devices.size() == 0){
-        cerr << "Vector is empty" << endl;
+    if (new_devices.size() == 0) {
+        cerr << "\nVector is empty!" << endl;
         return 1;
     }
 
-    sort(new_devices.begin(), new_devices.end(), [](CommunicationDevice a, CommunicationDevice b) {//!
-        return a.getDelay() < b.getDelay();
-    });
-
-    for(int i =0; i < new_devices.size(); i++){ 
-        new_devices[i].printInfo();
+    for (int i = 0; i < new_devices.size() - 1; i++) {
+        for (int j = i + 1; j < new_devices.size(); j++) {
+            if (new_devices[i].getDelay() > new_devices[j].getDelay()) {
+                CommunicationDevice temp = new_devices[i];
+                new_devices[i] = new_devices[j];
+                new_devices[j] = temp;
+            }
+        }
     }
+
+    cout << "\n----New Devices----" << endl;
+
+    printVector(new_devices);
 
     return 0;
 }
