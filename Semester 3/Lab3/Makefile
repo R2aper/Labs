@@ -10,7 +10,12 @@ prog2:
 	g++ -c src/FromBin.cpp -o obj/FromBin.o
 	g++ obj/FromBin.o obj/lib.o -o prog2
 
-clean:
-	rm prog1.exe
-	rm prog2.exe
+cleanU:
+	rm prog1
+	rm prog2
 	rm obj/*.o	
+
+cleanw:
+	del prog1.exe
+	del prog2.exe
+	del obj\*.o 
