@@ -3,4 +3,4 @@ BasedOnStyle: LLVM
 Language: Cpp
 PointerAlignment: Right
 ColumnLimit: 100
-IndentWidth: 4
+IndentWidth: 2
