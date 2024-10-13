@@ -1,7 +1,18 @@
+/*
+
+Вариант - 14
+
+TODO:
+
+* В заданном предложении заменить все строчные латинские буквы прописными.
+
+*/
+
 #include <iostream>
 #include <string>
 
 using namespace std;
+
 int main() {
   setlocale(LC_ALL, "ru_RU.UTF-8");
   string a;

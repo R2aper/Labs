@@ -4,7 +4,7 @@
 
 TODO:
 
-* Вычитание из значения каждого элемента матрицы номера строки данного элемента.
+*Вычисление суммы элементов главной диагонали матрицы.
 
 */
 
@@ -32,11 +32,13 @@ void output_matrix(int **M, int m) {
   }
 }
 
-void change(int **M, int m) {
+int SumOfMainDiagonal(int **M, int m) {
+  int sum = 0;
   for (int i = 0; i < m; i++) {
-    for (int j = 0; j < m; j++)
-      M[i][j] = M[i][j] - (i + 1);
+    sum += M[i][i];
   }
+
+  return sum;
 }
 
 int main() {
@@ -53,8 +55,7 @@ int main() {
 
   input_matrix(a, m);
   output_matrix(a, m);
-  change(a, m);
-  output_matrix(a, m);
+  cout << "Sum of main diagonal = " << SumOfMainDiagonal(a, m);
 
   return 0;
 }
