@@ -13,6 +13,7 @@ TODO:
 *Если не пуст, повести сортировку объектов в новом векторе.
 
 */
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <time.h>
@@ -28,8 +29,8 @@ private:
 public:
   CommunicationDevice() {
     string Default = "Untitle";
-    this->Manufacturer = Default;
-    this->Delay = 0.0;
+    Manufacturer = Default;
+    Delay = 0.0;
   }
   CommunicationDevice(string Manufacturer, float Delay) {
     this->Manufacturer = Manufacturer;
@@ -40,7 +41,7 @@ public:
   string getManufacturer() { return Manufacturer; }
   float getDelay() { return Delay; }
   void printInfo() {
-    cout << "\nManufacturer: " << Manufacturer << endl;
+    cout << "Manufacturer: " << Manufacturer << endl;
     cout << "Delay: " << Delay << " seconds" << endl;
   }
 };
@@ -54,10 +55,10 @@ void printVector(vector<CommunicationDevice> devices) {
 int main() {
   srand(time(0));
   string Manufacturers[5] = {"Apple", "Samsung", "Xiaomi", "Huawei", "Nokia"};
-  vector<CommunicationDevice> devices(3);
+  vector<CommunicationDevice> devices(10);
 
   for (int i = 0; i < 3; i++) {
-    devices[i].setDelay(rand() % 10);
+    devices[i].setDelay(rand() % 100);
     devices[i].setManufacturer(Manufacturers[rand() % 5]);
   }
 
@@ -67,7 +68,7 @@ int main() {
   vector<CommunicationDevice> new_devices;
 
   for (int i = 0; i < 3; i++) {
-    if (devices[i].getDelay() < 5) {
+    if (devices[i].getDelay() < 30) {
       new_devices.push_back(devices[i]);
     }
   }
@@ -77,15 +78,8 @@ int main() {
     return 1;
   }
 
-  for (int i = 0; i < new_devices.size() - 1; i++) {
-    for (int j = i + 1; j < new_devices.size(); j++) {
-      if (new_devices[i].getDelay() > new_devices[j].getDelay()) {
-        CommunicationDevice temp = new_devices[i];
-        new_devices[i] = new_devices[j];
-        new_devices[j] = temp;
-      }
-    }
-  }
+  sort(new_devices.begin(), new_devices.end(),
+       [](CommunicationDevice a, CommunicationDevice b) { return a.getDelay() < b.getDelay(); });
 
   cout << "\n----New Devices----" << endl;
 
