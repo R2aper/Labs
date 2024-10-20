@@ -13,10 +13,11 @@ TODO:
 *Если не пуст, повести сортировку объектов в новом векторе.
 
 */
+#include <time.h>
+
 #include <algorithm>
 #include <iostream>
 #include <string>
-#include <time.h>
 #include <vector>
 
 using namespace std;
@@ -32,14 +33,18 @@ public:
     Manufacturer = Default;
     Delay = 0.0;
   }
+
   CommunicationDevice(string Manufacturer, float Delay) {
     this->Manufacturer = Manufacturer;
     this->Delay = Delay;
   }
+
   void setManufacturer(string newManufacturer) { Manufacturer = newManufacturer; }
   void setDelay(float newDelay) { Delay = newDelay; }
+
   string getManufacturer() { return Manufacturer; }
   float getDelay() { return Delay; }
+
   void printInfo() {
     cout << "Manufacturer: " << Manufacturer << endl;
     cout << "Delay: " << Delay << " seconds" << endl;
@@ -57,7 +62,7 @@ int main() {
   string Manufacturers[5] = {"Apple", "Samsung", "Xiaomi", "Huawei", "Nokia"};
   vector<CommunicationDevice> devices(10);
 
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < devices.size(); i++) {
     devices[i].setDelay(rand() % 100);
     devices[i].setManufacturer(Manufacturers[rand() % 5]);
   }
@@ -67,7 +72,7 @@ int main() {
 
   vector<CommunicationDevice> new_devices;
 
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < devices.size(); i++) {
     if (devices[i].getDelay() < 30) {
       new_devices.push_back(devices[i]);
     }
