@@ -21,7 +21,10 @@ TODO:
 
 */
 
+#include <algorithm>
+#include <iomanip>
 #include <iostream>
+#include <iterator>
 #include <list>
 #include <string>
 
@@ -50,26 +53,22 @@ public:
   }
 
   void SetDestination(string destination) { this->destination = destination; }
-
   void SetFlightNumber(string flightNumber) { this->flightNumber = flightNumber; }
-
   void SetName(string name) { this->name = name; }
-
   void SetDate(string date) { this->date = date; }
 
   string GetDestination() { return destination; }
-
   string GetFlightNumber() { return flightNumber; }
-
   string GetName() { return name; }
-
   string GetDate() { return date; }
 
-  void Print() {
-    cout << "Пунк назначения: " << destination << endl;
-    cout << "Номер рейса: " << flightNumber << endl;
-    cout << "Фамилия и инициалы: " << name << endl;
-    cout << "Дата: " << date << endl;
+  friend ostream &operator<<(ostream &out, const AirTicket &data) {
+    out << "Пунк назначения: " << endl << data.destination << endl;
+    out << "Номер рейса: " << endl << data.flightNumber << endl;
+    out << "Фамилия и инициалы: " << endl << data.name << endl;
+    out << "Дата: " << endl << data.date << endl;
+
+    return out;
   }
 };
 
@@ -93,23 +92,21 @@ public:
   }
 
   void PrintDataBase() {
-    //? Fancy output
     cout << "\x1b[2J\x1b[H";
-    for (AirTicket i : data) {
-      cout << "-------------------------" << endl;
-      i.Print();
-      cout << "-------------------------" << endl;
-    }
+    copy(data.begin(), data.end(), ostream_iterator<AirTicket>(cout, "\n"));
   }
 
   void PrintAirTicket(string flightNumber, string date) { //!
     cout << "\x1b[2J\x1b[H";
-    for (list<AirTicket>::iterator it = data.begin(); it != data.end(); it++) {
-      cout << "-------------------------" << endl;
-      it->Print();
-      cout << "-------------------------" << endl;
-      break;
-    }
+    auto it = find_if(data.begin(), data.end(), [flightNumber, date](AirTicket i) {
+      return (i.GetFlightNumber() == flightNumber && i.GetDate() == date);
+    });
+
+    if (it != data.end())
+      cout << *it;
+
+    else
+      cout << "Заявка не найдена" << endl;
   }
 };
 
