@@ -85,7 +85,7 @@ public:
 
   void AddData(AirTicket data) { this->data.push_back(data); }
 
-  void DeleteData(string flightNumber, string date) { //!
+  void DeleteData(string flightNumber, string date) {
     data.remove_if([flightNumber, date](AirTicket i) {
       return (i.GetFlightNumber() == flightNumber && i.GetDate() == date);
     });
@@ -96,7 +96,7 @@ public:
     copy(data.begin(), data.end(), ostream_iterator<AirTicket>(cout, "\n"));
   }
 
-  void PrintAirTicket(string flightNumber, string date) { //!
+  void PrintAirTicket(string flightNumber, string date) {
     cout << "\x1b[2J\x1b[H";
     auto it = find_if(data.begin(), data.end(), [flightNumber, date](AirTicket i) {
       return (i.GetFlightNumber() == flightNumber && i.GetDate() == date);
@@ -147,8 +147,8 @@ void PrintTicket(AirTicketDataBase &DataBase) {
 }
 
 int main() {
-  cout << "\x1b[2J\x1b[H";
   setlocale(LC_ALL, "ru_RU.UTF-8");
+  cout << "\x1b[2J\x1b[H";
   bool exit = false;
   AirTicketDataBase DataBase = AirTicketDataBase();
 
@@ -161,9 +161,9 @@ int main() {
     cout << "5. Выход" << endl;
     cout << "Выберите действие: ";
 
-    string tmp;
-    getline(cin, tmp);
-    int action = stoi(tmp);
+    int action = 0;
+    cin >> action;
+    cin.get();
 
     switch (action) {
     case 1:
