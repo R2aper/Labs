@@ -10,7 +10,8 @@ TODO:
 
 !Создть класс унаследованный от окружности, круглый прямой цилиндр с высотой h.
 
-*Добавить в класс метод определения объема фигуры. Перегрузить метод расчета площади и вывода сведений о фигуре.
+*Добавить в класс метод определения объема фигуры. Перегрузить метод расчета площади и вывода
+cведений о фигуре.
 
 *Дано N окружностей и M цилиндров, найти окружность с максимальной площадью и средней объем цилиндра
 
@@ -26,15 +27,14 @@ protected:
   float R;
 
 public:
-  Circle() { R = 1.0; }
+  Circle() : R(1.0) {}
 
-  Circle(float R) { this->R = R; }
+  explicit Circle(float R) { this->R = R; }
 
   virtual ~Circle() {}
 
-  float virtual getArea() { return M_PI * pow(R, 2); }
-
-  float getLength() { return 2 * M_PI * R; }
+  float virtual Area() { return M_PI * pow(R, 2); }
+  float Length() { return 2 * M_PI * R; }
 
   float getR() { return R; }
 
@@ -42,8 +42,8 @@ public:
 
   void virtual printInfo() {
     cout << "\nRadius: " << getR() << endl;
-    cout << "Area: " << getArea() << endl;
-    cout << "Length: " << getLength() << endl;
+    cout << "Area: " << Area() << endl;
+    cout << "Length: " << Length() << endl;
   }
 };
 
@@ -52,27 +52,23 @@ private:
   float h;
 
 public:
-  Cylinder() {
-    h = 1.0;
-    R = 1.0;
-  }
+  Cylinder() : h(1.0) {}
 
   Cylinder(float R, float h) {
     this->h = h;
     this->R = R;
   }
 
-  float getVolume() { return getArea() * h; }
-
-  float getArea() override { return 2 * M_PI * R * (R + h); }
-
+  float getVolume() { return Area() * h; }
+  float Area() override { return 2 * M_PI * R * (R + h); }
   float getH() { return h; }
 
   void setH(float newH) { h = newH; }
+
   void printInfo() override {
     cout << "\nRadius: " << R << endl;
     cout << "Height: " << h << endl;
-    cout << "Area: " << getArea() << endl;
+    cout << "Area: " << Area() << endl;
     cout << "Volume: " << getVolume() << endl;
   }
 };
@@ -112,10 +108,10 @@ float AverageCylinder(Cylinder *Cy, int M) {
 
 Circle MaxCircle(Circle *C, int N) {
   Circle MaxCircle;
-  float MaxArea = C[0].getArea();
+  float MaxArea = C[0].Area();
   for (int i = 1; i < N; i++) {
-    if (C[i].getArea() > MaxArea) {
-      MaxArea = C[i].getArea();
+    if (C[i].Area() > MaxArea) {
+      MaxArea = C[i].Area();
       MaxCircle = C[i];
     }
   }

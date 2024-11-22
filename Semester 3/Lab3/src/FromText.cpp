@@ -24,8 +24,7 @@ void FillFromFile(fstream &file, PopulationGrowth &obj) {
   string name;
   int growth2010, growth2011, growth2012, growth2013, growth2014;
 
-  file >> name >> growth2010 >> growth2011 >> growth2012 >> growth2013 >>
-      growth2014;
+  file >> name >> growth2010 >> growth2011 >> growth2012 >> growth2013 >> growth2014;
   obj.setName(name);
   obj.setGrowth2010(growth2010);
   obj.setGrowth2011(growth2011);
@@ -41,22 +40,22 @@ void writeToBin(ofstream &binfile, PopulationGrowth &obj) {
       growth2012 = obj.GetGrowth2012(), growth2013 = obj.GetGrowth2013(),
       growth2014 = obj.GetGrowth2014();
 
-  binfile.write((char *)&nameLen, sizeof(nameLen));
-  binfile.write((char*)name.c_str(),name.size());
-  binfile.write((char *)&growth2010, sizeof(growth2010));
-  binfile.write((char *)&growth2011, sizeof(growth2011));
-  binfile.write((char *)&growth2012, sizeof(growth2012));
-  binfile.write((char *)&growth2013, sizeof(growth2013));
-  binfile.write((char *)&growth2014, sizeof(growth2014));
+  binfile.write(reinterpret_cast<char *>(&nameLen), sizeof(nameLen));
+  binfile.write(const_cast<char *>(name.c_str()), name.size());
+  binfile.write(reinterpret_cast<char *>(&growth2010), sizeof(growth2010));
+  binfile.write(reinterpret_cast<char *>(&growth2011), sizeof(growth2011));
+  binfile.write(reinterpret_cast<char *>(&growth2012), sizeof(growth2012));
+  binfile.write(reinterpret_cast<char *>(&growth2013), sizeof(growth2013));
+  binfile.write(reinterpret_cast<char *>(&growth2014), sizeof(growth2014));
 }
 
 void FromTextToBinary(fstream &file, ofstream &binfile, int all) {
   PopulationGrowth *Table = new PopulationGrowth[all];
 
-  for (int i = 0; i < all; i++) 
+  for (int i = 0; i < all; i++)
     FillFromFile(file, Table[i]);
-  
-  binfile.write((char *)&all,sizeof(all));
+
+  binfile.write(reinterpret_cast<char *>(&all), sizeof(all));
 
   for (int i = 0; i < all; i++)
     writeToBin(binfile, Table[i]);

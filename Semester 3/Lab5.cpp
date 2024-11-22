@@ -38,29 +38,25 @@ private:
   string date;
 
 public:
-  AirTicket() {
-    destination = "";
-    flightNumber = "";
-    name = "";
-    date = "";
-  }
+  AirTicket() : destination(""), flightNumber(""), name(""), date("") {}
 
-  AirTicket(string destination, string flightNumber, string name, string date) {
+  AirTicket(const string &destination, const string &flightNumber, const string &name,
+            const string &date) {
     this->destination = destination;
     this->flightNumber = flightNumber;
     this->name = name;
     this->date = date;
   }
 
-  void SetDestination(string destination) { this->destination = destination; }
-  void SetFlightNumber(string flightNumber) { this->flightNumber = flightNumber; }
-  void SetName(string name) { this->name = name; }
-  void SetDate(string date) { this->date = date; }
+  void SetDestination(const string &destination) { this->destination = destination; }
+  void SetFlightNumber(const string &flightNumber) { this->flightNumber = flightNumber; }
+  void SetName(const string &name) { this->name = name; }
+  void SetDate(const string &date) { this->date = date; }
 
-  string GetDestination() { return destination; }
-  string GetFlightNumber() { return flightNumber; }
-  string GetName() { return name; }
-  string GetDate() { return date; }
+  const string &GetDestination() { return destination; }
+  const string &GetFlightNumber() { return flightNumber; }
+  const string &GetName() { return name; }
+  const string &GetDate() { return date; }
 
   friend ostream &operator<<(ostream &out, const AirTicket &data) {
     out << "Пунк назначения: " << endl << data.destination << endl;
@@ -77,15 +73,15 @@ private:
   list<AirTicket> data;
 
 public:
-  AirTicketDataBase() { data = {}; }
+  AirTicketDataBase() : data() {}
 
-  AirTicketDataBase(list<AirTicket> data) { this->data = data; }
+  explicit AirTicketDataBase(const list<AirTicket> &data) { this->data = data; }
 
-  list<AirTicket> GetData() { return data; }
+  const list<AirTicket> &GetData() { return data; }
 
-  void AddData(AirTicket data) { this->data.push_back(data); }
+  void AddData(const AirTicket &data) { this->data.push_back(data); }
 
-  void DeleteData(string flightNumber, string date) {
+  void DeleteData(const string &flightNumber, const string &date) {
     data.remove_if([flightNumber, date](AirTicket i) {
       return (i.GetFlightNumber() == flightNumber && i.GetDate() == date);
     });
@@ -96,7 +92,7 @@ public:
     copy(data.begin(), data.end(), ostream_iterator<AirTicket>(cout, "\n"));
   }
 
-  void PrintAirTicket(string flightNumber, string date) {
+  void PrintAirTicket(const string &flightNumber, const string &date) {
     cout << "\x1b[2J\x1b[H";
     auto it = find_if(data.begin(), data.end(), [flightNumber, date](AirTicket i) {
       return (i.GetFlightNumber() == flightNumber && i.GetDate() == date);

@@ -5,9 +5,9 @@
 TODO:
 
 !Создать класс "Коммуникационное устройство" которое должно содержать поля:
- 
-*"Производитель" 
-*Задержка обработки информации 
+
+*"Производитель"
+*Задержка обработки информации
 
 !И методы:
 
@@ -28,19 +28,19 @@ private:
   float Delay;
 
 public:
-  CommunicationDevice() {
-    string Default = "Untitle";
-    Manufacturer = Default;
-    Delay = 0.0;
-  }
-  CommunicationDevice(string Manufacturer, float Delay) {
+  CommunicationDevice() : Manufacturer("Untitle") { Delay = 0.0; }
+
+  CommunicationDevice(const string &Manufacturer, float Delay) {
     this->Manufacturer = Manufacturer;
     this->Delay = Delay;
   }
-  void setManufacturer(string newManufacturer) { Manufacturer = newManufacturer; }
+
+  void setManufacturer(const string &newManufacturer) { Manufacturer = newManufacturer; }
   void setDelay(float newDelay) { Delay = newDelay; }
-  string getManufacturer() { return Manufacturer; }
+
+  const string &getManufacturer() { return Manufacturer; }
   float getDelay() { return Delay; }
+
   void printInfo() {
     cout << "Manufacturer: " << Manufacturer << endl;
     cout << "Delay: " << Delay << " seconds" << endl;

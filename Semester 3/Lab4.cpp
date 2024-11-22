@@ -28,22 +28,18 @@ private:
   float Delay;
 
 public:
-  CommunicationDevice() {
-    string Default = "Untitle";
-    Manufacturer = Default;
-    Delay = 0.0;
-  }
+  CommunicationDevice() : Manufacturer("Untitle") { Delay = 0.0; }
 
-  CommunicationDevice(string Manufacturer, float Delay) {
+  CommunicationDevice(const string &Manufacturer, float Delay) {
     this->Manufacturer = Manufacturer;
     this->Delay = Delay;
   }
 
-  void setManufacturer(string newManufacturer) { Manufacturer = newManufacturer; }
+  void setManufacturer(const string &newManufacturer) { Manufacturer = newManufacturer; }
   void setDelay(float newDelay) { Delay = newDelay; }
 
-  string getManufacturer() { return Manufacturer; }
-  float getDelay() { return Delay; }
+  const string &getManufacturer() { return Manufacturer; }
+  const float &getDelay() { return Delay; }
 
   void printInfo() {
     cout << "Manufacturer: " << Manufacturer << endl;
@@ -59,7 +55,7 @@ void printVector(vector<CommunicationDevice> devices) {
 
 int main() {
   srand(time(0));
-  string Manufacturers[5] = {"Apple", "Samsung", "Xiaomi", "Huawei", "Nokia"};
+  const string Manufacturers[5] = {"Apple", "Samsung", "Xiaomi", "Huawei", "Nokia"};
   vector<CommunicationDevice> devices(10);
 
   for (int i = 0; i < devices.size(); i++) {

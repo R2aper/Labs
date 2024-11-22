@@ -37,14 +37,14 @@ void readFromBin(ifstream &binfile, PopulationGrowth &obj) {
   string name;
   int growth2010, growth2011, growth2012, growth2013, growth2014;
 
-  binfile.read((char *)&nameLen, sizeof(nameLen));
+  binfile.read(reinterpret_cast<char *>(&nameLen), sizeof(nameLen));
   name.resize(nameLen);
-  binfile.read((char *)name.data(), nameLen);
-  binfile.read((char *)&growth2010, sizeof(growth2010));
-  binfile.read((char *)&growth2011, sizeof(growth2011));
-  binfile.read((char *)&growth2012, sizeof(growth2012));
-  binfile.read((char *)&growth2013, sizeof(growth2013));
-  binfile.read((char *)&growth2014, sizeof(growth2014));
+  binfile.read(reinterpret_cast<char *>(name.data()), nameLen);
+  binfile.read(reinterpret_cast<char *>(&growth2010), sizeof(growth2010));
+  binfile.read(reinterpret_cast<char *>(&growth2011), sizeof(growth2011));
+  binfile.read(reinterpret_cast<char *>(&growth2012), sizeof(growth2012));
+  binfile.read(reinterpret_cast<char *>(&growth2013), sizeof(growth2013));
+  binfile.read(reinterpret_cast<char *>(&growth2014), sizeof(growth2014));
 
   obj.setName(name);
   obj.setGrowth2010(growth2010);
@@ -52,12 +52,11 @@ void readFromBin(ifstream &binfile, PopulationGrowth &obj) {
   obj.setGrowth2012(growth2012);
   obj.setGrowth2013(growth2013);
   obj.setGrowth2014(growth2014);
-
 }
 
 void fromBinaryToText(ifstream &binfile) {
   int all = 0;
-  binfile.read((char *)&all,sizeof(all));
+  binfile.read(reinterpret_cast<char *>(&all), sizeof(all));
   PopulationGrowth *a = new PopulationGrowth[all];
   for (int i = 0; i < all; i++)
     readFromBin(binfile, a[i]);
@@ -66,7 +65,6 @@ void fromBinaryToText(ifstream &binfile) {
 
   for (int i = 0; i < all; i++)
     a[i].Print();
-
 }
 
 int main() {
