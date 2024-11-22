@@ -55,7 +55,12 @@ int main() {
 
   input_matrix(a, m);
   output_matrix(a, m);
-  cout << "Sum of main diagonal = " << SumOfMainDiagonal(a, m);
+  cout << "Sum of main diagonal = " << SumOfMainDiagonal(a, m) << endl;
+
+  for (int i = 0; i < m; i++)
+    delete[] a[i];
+
+  delete[] a;
 
   return 0;
 }

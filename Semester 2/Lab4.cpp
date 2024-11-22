@@ -56,5 +56,10 @@ int main() {
   change(a, m);
   output_matrix(a, m);
 
+  for (int i = 0; i < m; i++)
+    delete[] a[i];
+
+  delete[] a;
+
   return 0;
 }

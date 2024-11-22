@@ -50,13 +50,13 @@ int main() {
   fin.open(path);
 
   if (!fin.is_open()) {
-    cerr << "Error!";
+    cerr << "Error!" << endl;
     return 1;
   }
 
   fin >> all;
   Brigada *brigada = new Brigada[all];
-  for (int i = 0; !fin.eof(); i++) {
+  for (int i = 0; i < all; i++) {
     fin >> brigada[i].id >> brigada[i].price >> brigada[i].monday >> brigada[i].tuesday >>
         brigada[i].wendesday >> brigada[i].thursday >> brigada[i].friday;
 
