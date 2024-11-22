@@ -17,7 +17,7 @@ TODO:
 
 using namespace std;
 
-void PrintStack(stack<int> stack) {
+template <typename T> void PrintStack(stack<T> stack) {
   while (!stack.empty()) {
     cout << stack.top() << endl;
     stack.pop();
