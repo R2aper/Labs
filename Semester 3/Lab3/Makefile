@@ -15,7 +15,7 @@ cleanU:
 	rm prog2
 	rm obj/*.o	
 
-cleanw:
+cleanW:
 	del prog1.exe
 	del prog2.exe
 	del obj\*.o 
