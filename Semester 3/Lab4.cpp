@@ -13,9 +13,8 @@ TODO:
 *Если не пуст, повести сортировку объектов в новом векторе.
 
 */
-#include <time.h>
-
 #include <algorithm>
+#include <ctime>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -75,14 +74,14 @@ int main() {
   }
 
   if (new_devices.size() == 0) {
-    cerr << "\nVector is empty!" << endl;
+    cerr << endl << "Vector is empty!" << endl;
     return 1;
   }
 
   sort(new_devices.begin(), new_devices.end(),
        [](CommunicationDevice a, CommunicationDevice b) { return a.getDelay() < b.getDelay(); });
 
-  cout << "\n----New Devices----" << endl;
+  cout << endl << "----New Devices----" << endl;
 
   printVector(new_devices);
 

@@ -31,8 +31,6 @@ public:
 
   explicit Circle(float R) { this->R = R; }
 
-  virtual ~Circle() {}
-
   float virtual Area() { return M_PI * pow(R, 2); }
   float Length() { return 2 * M_PI * R; }
 
@@ -41,7 +39,7 @@ public:
   void setR(float newR) { R = newR; }
 
   void virtual printInfo() {
-    cout << "\nRadius: " << getR() << endl;
+    cout << endl << "Radius: " << getR() << endl;
     cout << "Area: " << Area() << endl;
     cout << "Length: " << Length() << endl;
   }
@@ -66,7 +64,7 @@ public:
   void setH(float newH) { h = newH; }
 
   void printInfo() override {
-    cout << "\nRadius: " << R << endl;
+    cout << endl << "Radius: " << R << endl;
     cout << "Height: " << h << endl;
     cout << "Area: " << Area() << endl;
     cout << "Volume: " << getVolume() << endl;
@@ -74,10 +72,10 @@ public:
 };
 
 void EnterDataCircle(Circle *C, int N) {
-  cout << "Enter data for Circles\n";
+  cout << "Enter data for Circles: " << endl;
   for (int i = 0; i < N; i++) {
     float R;
-    cout << "Enter R: \n";
+    cout << "Enter R: " << endl;
     cin >> R;
     C[i].setR(R);
     C[i].printInfo();
@@ -85,12 +83,12 @@ void EnterDataCircle(Circle *C, int N) {
 }
 
 void EnterDataCylinder(Cylinder *Cy, int M) {
-  cout << "Enter data for Cylinders\n";
+  cout << "Enter data for Cylinders: " << endl;
   for (int i = 0; i < M; i++) {
     float R, h;
-    cout << "Enter R: \n";
+    cout << "Enter R: " << endl;
     cin >> R;
-    cout << "Enter h: \n";
+    cout << "Enter h: " << endl;
     cin >> h;
     Cy[i].setR(R);
     Cy[i].setH(h);
@@ -121,9 +119,9 @@ Circle MaxCircle(Circle *C, int N) {
 
 int main() {
   int N, M;
-  cout << "Enter N: \n";
+  cout << "Enter N: " << endl;
   cin >> N;
-  cout << endl << "Enter M: \n";
+  cout << endl << "Enter M: " << endl;
   cin >> M;
 
   Circle *C = new Circle[N];
@@ -132,10 +130,10 @@ int main() {
   EnterDataCircle(C, N);
   EnterDataCylinder(Cy, M);
 
-  cout << "\nAverage volume of cylinders: " << AverageCylinder(Cy, M) << endl;
+  cout << endl << "Average volume of cylinders: " << AverageCylinder(Cy, M) << endl;
   Circle Max = MaxCircle(C, N);
 
-  cout << "\nCircle with max area: ";
+  cout << endl << "Circle with max area: ";
   Max.printInfo();
 
   delete[] C;

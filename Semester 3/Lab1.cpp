@@ -50,9 +50,9 @@ public:
 int main() {
   string Manufacturer;
   float Delay;
-  cout << "Enter manufacturer: \n";
+  cout << "Enter manufacturer: " << endl;
   cin >> Manufacturer;
-  cout << "Enter delay: \n";
+  cout << "Enter delay:" << endl;
   cin >> Delay;
 
   CommunicationDevice device;

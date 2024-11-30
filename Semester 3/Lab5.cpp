@@ -22,7 +22,6 @@ TODO:
 */
 
 #include <algorithm>
-#include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <list>

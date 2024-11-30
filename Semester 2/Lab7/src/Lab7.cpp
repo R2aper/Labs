@@ -9,15 +9,13 @@ TODO:
 */
 
 #include <iostream>
-#include <iomanip>
-#include <cmath>
 
 #include "../include/mylib.hpp"
 
 using namespace std;
 
 int main() {
-    cout << approx(0.5, 5, 0) << endl;
+  cout << approx(0.5, 5, 0) << endl;
 
-    return 0;
+  return 0;
 }
