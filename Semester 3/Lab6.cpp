@@ -32,6 +32,7 @@ int main() {
   cout << "Введите количество чисел:" << endl;
   cin >> size;
 
+  cout << "Введите числа:" << endl;
   for (int i = 0; i < size; i++) {
     cin >> input;
     numbers.push(input);
@@ -45,7 +46,7 @@ int main() {
   cout << "Все числа:" << endl;
   PrintStack(numbers);
 
-  for (int i = 0; i < size; i++) {
+  while (!numbers.empty()) {
     if (numbers.top() % 2 == 0)
       even.push(numbers.top());
     else
