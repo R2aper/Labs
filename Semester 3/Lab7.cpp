@@ -116,11 +116,11 @@ int main() {
   float memory;
   cin >> memory;
 
-  for (int i = 0; i < tasks.size(); i++) {
+  while (!tasks.empty()) {
     if (tasks.front().getMemory() <= memory) {
       tmp.push(tasks.front());
-      tasks.pop();
     }
+    tasks.pop();
   }
 
   tasks = tmp;
