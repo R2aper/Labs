@@ -65,7 +65,7 @@ void SortEmployers(Employer employers[], int size) {
 }
 
 int main() {
-  setlocale(LC_CTYPE, "ru_RU.UTF-8");
+  setlocale(LC_CTYPE, "RUS");
   int k = 10, c = 0, count = 0;
   Employer employers[10] = {
       {1, "Анисимов", "Ю.П.", "М", 1970, 1989},  {2, "Иванов  ", "И.Н.", "М", 1980, 2002},

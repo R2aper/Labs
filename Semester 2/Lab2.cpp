@@ -14,7 +14,7 @@ TODO:
 using namespace std;
 
 int main() {
-  setlocale(LC_ALL, "ru_RU.UTF-8");
+  setlocale(LC_ALL, "RUS");
   string a;
   cout << "Enter word:" << endl;
   getline(cin, a);

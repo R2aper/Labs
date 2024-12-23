@@ -25,7 +25,7 @@ template <typename T> void PrintStack(stack<T> stack) {
 }
 
 int main() {
-  setlocale(LC_ALL, "ru_RU.UTF-8");
+  setlocale(LC_ALL, "RUS");
   stack<int> numbers, odd, even;
   int size = 0, input = 0;
 

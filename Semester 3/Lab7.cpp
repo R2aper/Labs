@@ -91,7 +91,7 @@ template <typename T> void PrintQueue(queue<T> queue) {
 }
 
 int main() {
-  setlocale(LC_ALL, "ru_RU.UTF-8");
+  setlocale(LC_ALL, "RUS");
   srand(time(0));
 
   const string names[] = {"Задание 1", "Задание 2", "Задание 3", "Задание 4", "Задание 5"};

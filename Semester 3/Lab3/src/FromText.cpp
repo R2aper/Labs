@@ -64,7 +64,7 @@ void FromTextToBinary(fstream &file, ofstream &binfile, int all) {
 }
 
 int main() {
-  setlocale(LC_ALL, "ru_RU.UTF-8");
+  setlocale(LC_ALL, "RUS");
 
   ofstream binFile;
   binFile.open("Table.bin", ios::binary);

@@ -142,7 +142,7 @@ void PrintTicket(AirTicketDataBase &DataBase) {
 }
 
 int main() {
-  setlocale(LC_ALL, "ru_RU.UTF-8");
+  setlocale(LC_ALL, "RUS");
   cout << "\x1b[2J\x1b[H";
   bool exit = false;
   AirTicketDataBase DataBase = AirTicketDataBase();

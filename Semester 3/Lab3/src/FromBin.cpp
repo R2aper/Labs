@@ -68,7 +68,7 @@ void fromBinaryToText(ifstream &binfile) {
 }
 
 int main() {
-  setlocale(LC_ALL, "ru_RU.UTF-8");
+  setlocale(LC_ALL, "RUS");
 
   ifstream binFile2;
   binFile2.open("Table.bin", ios::binary);
