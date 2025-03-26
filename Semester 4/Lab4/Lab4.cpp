@@ -9,7 +9,6 @@
 *        считать входной файл input.txt, содержащий текст на английском языке.
 *        вывести полученную таблицу в файл output.txt.
 *        сделать поиск введенной  с клавиатуры буквы в хеш-таблице и вывести значение на экран.
-
 */
 
 #include <cctype>
@@ -19,68 +18,89 @@
 #include <vector>
 
 #define TABLE_SIZE 26
+#define HASH_CODE 5381
+#define QUADRATIC_PROBING(index, attempt) ((index + attempt * attempt) % TABLE_SIZE)
 
 using namespace std;
 
 class HashTable {
 private:
-  vector<vector<pair<char, int>>> table;
+  vector<pair<char, int>> table;
 
-  // Хэш-функция, возвращает индекс буквы [0, 25]
-  int hash(char c) { return tolower(c) - 'a'; }
+  // Хэш-функция, алгоритм djb2
+  size_t hash(const std::string &str) {
+    unsigned long hash = HASH_CODE;
+
+    for (char c : str) {
+      hash = ((hash << 5) + hash) + static_cast<unsigned char>(c); // hash * 33 + c
+    }
+    return hash;
+  }
 
 public:
-  HashTable() : table(TABLE_SIZE) {}
+  HashTable() : table(TABLE_SIZE) {
+    for (int i = 0; i < TABLE_SIZE; i++)
+      table[i] = {'\0', 0};
+  }
 
   // Увеличивает частоту буквы в хэш-таблице
   void Increment(char key) {
-    key = tolower(key);
-    int index = hash(key);
+    int index = hash(std::string({key})) % TABLE_SIZE;
 
-    for (auto &p : table[index]) {
-      if (p.first == key) {
-        p.second++;
+    for (int i = 0; i < table.size(); i++) {
+      int current = QUADRATIC_PROBING(index, i); // Квадратичный шаг
+
+      if (table[current].first == '\0') { // Если буквы нет
+        table[current].first = key;
+        table[current].second = 1;
+        return;
+      }
+
+      if (table[current].first == key) {
+        table[current].second++;
         return;
       }
     }
-
-    table[index].push_back(make_pair(key, 1));
   }
 
   // Удаляет букву из хэш-таблицы
   // True - при успехе, False - если буквы нет
   bool Remove(char key) {
-    key = tolower(key);
-    int index = hash(key);
+    int index = hash(std::string({key})) % TABLE_SIZE;
 
-    auto &bucket = table[index];
-    for (auto it = bucket.begin(); it != bucket.end(); ++it) {
-      if (it->first == key) {
-        bucket.erase(it);
+    for (int i = 0; i < table.size(); i++) {
+      int current = QUADRATIC_PROBING(index, i); // Квадратичный шаг
+
+      if (table[current].first == key) {
+        table[current].first = '\0';
+        table[current].second = 0;
         return true;
       }
     }
-
     return false;
   }
 
-  int getValue(char key) {
-    key = tolower(key);
-    int index = hash(key);
+  size_t getValue(char key) {
+    int index = hash(std::string({key})) % TABLE_SIZE;
 
-    for (const auto &p : table[index]) {
-      if (p.first == key)
-        return p.second;
+    for (int i = 0; i < table.size(); i++) {
+      int current = QUADRATIC_PROBING(index, i); // Квадратичный шаг
+
+      if (table[current].first == key)
+        return table[current].second;
     }
 
     return 0;
   }
 
+  void Print() {
+    for (const auto &p : table)
+      cout << p.first << ": " << p.second << endl;
+  }
+
   void PrintToFile(ofstream &out) {
-    for (int i = 0; i < TABLE_SIZE; ++i) {
-      for (const auto &p : table[i])
-        out << p.first << ": " << p.second << endl;
-    }
+    for (const auto &p : table)
+      out << p.first << ": " << p.second << endl;
   }
 };
 
@@ -88,7 +108,7 @@ string GetText(ifstream &in) {
   string str;
   char c;
   while (in.get(c))
-    str += c;
+    str += tolower(c);
 
   in.close();
   return str;
@@ -118,12 +138,22 @@ int main() {
   ht.PrintToFile(out);
   out.close();
 
-  cout << "Enter a key: ";
+  cout << "Enter a key to get value: ";
   string input;
   getline(cin, input);
 
   int val = ht.getValue(input[0]);
   cout << input[0] << ": " << val << endl;
 
+  cout << "Enter a key to remove: ";
+  string input2;
+  getline(cin, input2);
+
+  if (!ht.Remove(input2[0])) {
+    cerr << "No key to remove!" << endl;
+    return 1;
+  }
+
+  cout << ": " << ht.getValue(input2[0]) << endl;
   return 0;
 }

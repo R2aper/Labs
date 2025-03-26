@@ -19,27 +19,48 @@
 #include <string.h>
 
 #define TABLE_SIZE 26
+#define HASH_CODE 5381
+#define QUADRATIC_PROBING(index, attempt) ((index + attempt * attempt) % TABLE_SIZE)
 
 // Пара, состоящая из символа и его частоты
 typedef struct pair {
   char key;
-  unsigned int val;
+  size_t val;
 } pair;
 
-// Хэш-таблица, массив пар и его размер
+// Хэш-таблица, массив пар и его размер. Открытая адресация с квадратичным пробированием
 typedef struct hash_table {
   pair *table;
-  unsigned int size;
-
+  size_t size;
 } hash_table;
 
-// Хэш-функция, возвращает индекс буквы [0, 25]
-int hash(char c) { return tolower(c) - 'a'; }
+// Освободить после использования
+char *to_string(char key) {
+  char *str = malloc(2 * sizeof(char));
+  str[0] = key;
+  str[1] = '\0';
+  return str;
+}
+
+// Хэш-функция, алгоритм djb2
+size_t hash(const char *str) {
+  size_t hash = HASH_CODE;
+  int c;
+
+  while ((c = *str++)) {
+    hash = ((hash << 5) + hash) + c; // hash * 33 + c
+  }
+
+  return hash;
+}
 
 // Возращает указатель на хэш-таблицу, который должен быть освобожден после использования
 hash_table *hash_init(unsigned int size) {
   hash_table *ht = malloc(sizeof(hash_table));
   ht->table = calloc(size * sizeof(pair), sizeof(pair));
+  for (int i = 0; i < size; i++)
+    ht->table[i].key = '\0';
+
   ht->size = size;
 
   return ht;
@@ -52,40 +73,64 @@ void hash_table_free(hash_table *ht) {
 
 // Увеличивает частоту буквы в хэш-таблице
 void hash_table_increment(hash_table *ht, char key) {
-  key = tolower(key);
-  int index = hash(key);
+  char *str = to_string(key);
+  int index = hash(str) % TABLE_SIZE;
 
-  if (ht->table[index].key == key) {
-    ht->table[index].val++;
-    return;
+  for (int i = 0; i < ht->size; i++) {
+    int current = QUADRATIC_PROBING(index, i); // Квадратичный шаг
+
+    if (ht->table[current].key == '\0') { // Если буквы нет
+      ht->table[current].key = key;
+      ht->table[current].val = 1;
+      free(str);
+      return;
+    }
+
+    if (ht->table[current].key == key) {
+      ht->table[current].val++;
+      free(str);
+      return;
+    }
   }
 
-  ht->table[index].key = key;
-  ht->table[index].val = 1;
+  free(str);
 }
 
 // Удаляет букву из хэш-таблицы
 // 0 - при успехе, 1 - если буквы нет
 int hash_table_remove(hash_table *ht, char key) {
-  key = tolower(key);
-  int index = hash(key);
+  char *str = to_string(key);
+  int index = hash(str) % TABLE_SIZE;
 
-  if (ht->table[index].key == key) {
-    ht->table[index].key = '\0';
-    ht->table[index].val = 0;
-    return 0;
+  for (int i = 0; i < ht->size; i++) {
+    int current = QUADRATIC_PROBING(index, i); // Квадратичный шаг
+
+    if (ht->table[current].key == key) {
+      ht->table[current].key = '\0';
+      ht->table[current].val = 0;
+      free(str);
+      return 0;
+    }
   }
 
+  free(str);
   return 1;
 }
 
-unsigned int hash_table_get_val(const hash_table *ht, char key) {
-  int index = hash(key);
+size_t hash_table_get_val(const hash_table *ht, char key) {
+  char *str = to_string(key);
+  int index = hash(str) % TABLE_SIZE;
 
-  if (ht->table[index].key == key) {
-    return ht->table[index].val;
+  for (int i = 0; i < ht->size; i++) {
+    int current = QUADRATIC_PROBING(index, i); // Квадратичный шаг
+
+    if (ht->table[current].key == key) {
+      free(str);
+      return ht->table[current].val;
+    }
   }
 
+  free(str);
   return 0;
 }
 
@@ -166,7 +211,7 @@ int main() {
 
   for (int i = 0; i < size; i++) {
     if (isalpha(text[i]))
-      hash_table_increment(ht, text[i]);
+      hash_table_increment(ht, tolower(text[i]));
   }
 
   if (hash_table_write_to_file(ht, "output.txt") != 0) {
@@ -176,12 +221,21 @@ int main() {
     return 1;
   }
 
-  char key;
+  char key1, key2;
   printf("Enter key: ");
-  scanf("%c", &key);
+  scanf(" %c", &key1);
 
-  unsigned int val = hash_table_get_val(ht, key);
-  printf("%c: %u\n", key, val);
+  size_t val = hash_table_get_val(ht, key1);
+  printf("%c: %zu\n", key1, val);
+
+  printf("Enter key to remove: ");
+  scanf(" %c", &key2);
+
+  if (hash_table_remove(ht, key2) != 0) {
+    printf("No key to remove!\n");
+  }
+
+  printf("%u\n", hash_table_get_val(ht, key2));
 
   hash_table_free(ht);
   free(text);
