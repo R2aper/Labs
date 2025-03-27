@@ -28,7 +28,7 @@ private:
   vector<pair<char, int>> table;
 
   // Хэш-функция, алгоритм djb2
-  size_t hash(const std::string &str) {
+  size_t hash(const string &str) {
     unsigned long hash = HASH_CODE;
 
     for (char c : str) {
@@ -45,7 +45,7 @@ public:
 
   // Увеличивает частоту буквы в хэш-таблице
   void Increment(char key) {
-    int index = hash(std::string({key})) % TABLE_SIZE;
+    int index = hash(string({key})) % TABLE_SIZE;
 
     for (int i = 0; i < table.size(); i++) {
       int current = QUADRATIC_PROBING(index, i); // Квадратичный шаг
@@ -66,7 +66,7 @@ public:
   // Удаляет букву из хэш-таблицы
   // True - при успехе, False - если буквы нет
   bool Remove(char key) {
-    int index = hash(std::string({key})) % TABLE_SIZE;
+    int index = hash(string({key})) % TABLE_SIZE;
 
     for (int i = 0; i < table.size(); i++) {
       int current = QUADRATIC_PROBING(index, i); // Квадратичный шаг
@@ -81,7 +81,7 @@ public:
   }
 
   size_t getValue(char key) {
-    int index = hash(std::string({key})) % TABLE_SIZE;
+    int index = hash(string({key})) % TABLE_SIZE;
 
     for (int i = 0; i < table.size(); i++) {
       int current = QUADRATIC_PROBING(index, i); // Квадратичный шаг
